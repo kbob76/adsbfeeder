@@ -50,7 +50,8 @@ services:
       #  exception of the last line which shouldn't have a ";"
       - ULTRAFEEDER_CONFIG=
           adsb,feed.adsb.fi,30004,beast_reduce_plus_out;
-          adsb,in.adsb.lol,30004,beast_reduce_plus_out
+          adsb,in.adsb.lol,30004,beast_reduce_plus_out;
+          mlathub,piaware,30105,beast_in;
           # adsb,feed.airplanes.live,30004,beast_reduce_plus_out;
           # adsb,feed.planespotters.net,30004,beast_reduce_plus_out;
           # adsb,feed.theairtraffic.com,30004,beast_reduce_plus_out;
@@ -98,3 +99,20 @@ services:
       - /run:exec,size=256M
       - /tmp:size=128M
       - /var/log:size=32M
+  
+  piaware:
+    image: ghcr.io/sdr-enthusiasts/docker-piaware:latest
+    tty: true
+    container_name: piaware
+    restart: always
+    ports:
+      - 8081:8080
+    environment:
+      - BEASTHOST=ultrafeeder
+      - LAT=${FEEDER_LAT}
+      - LONG=${FEEDER_LONG}
+      - TZ=${FEEDER_TZ}
+      - FEEDER_ID=${PIAWARE_FEEDER_ID}
+    tmpfs:
+      - /run:exec,size=64M
+      - /var/log
