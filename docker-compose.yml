@@ -1,5 +1,9 @@
 version: '3.8'
 
+volumes:
+  prometheus_data:
+  grafana_data:
+
 services:
   ultrafeeder:
   # ultrafeeder combines a number of functions:
@@ -64,6 +68,7 @@ services:
       # General Environment Config
       - UUID=${ULTRAFEEDER_UUID}
       - MLATHUB_DISABLE=true
+      - PROMETHEUS_ENABLE=true # Enable Prometheus metrics gathering
       # - MLAT_USER=${FEEDER_NAME}
       #
       # --------------------------------------------------
@@ -129,3 +134,24 @@ services:
       - FR24KEY=${FR24_SHARING_KEY}
     tmpfs:
       - /var/log
+
+  prometheus:
+    image: prom/prometheus:latest
+    tty: true
+    container_name: prometheus
+    hostname: prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - prometheus_data:/prometheus
+
+  grafana:
+    image: grafana/grafana-oss:latest
+    tty: true
+    container_name: grafana
+    hostname: grafana
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana_data:/var/lib/grafana
