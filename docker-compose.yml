@@ -3,6 +3,8 @@ version: '3.8'
 volumes:
   prometheus_data:
   grafana_data:
+  influxdb_data:
+  influxdb_config:
 
 services:
   ultrafeeder:
@@ -95,6 +97,13 @@ services:
       - GRAPHS1090_DARKMODE=true
       #
       # --------------------------------------------------
+      #
+      # InfluxDB Settings
+      - INFLUXDBV2_URL=http://influxdb:8086
+      - INFLUXDBV2_BUCKET=ultrafeeder
+      - INFLUXDBV2_ORG=ultrafeeder
+      - INFLUXDBV2_TOKEN=${INFLUXDB_ADMIN_TOKEN}
+
     volumes:
       - /home/dev/adsbfeeder/ultrafeeder/globe_history:/var/globe_history
       - /home/dev/adsbfeeder/ultrafeeder/graphs1090:/var/lib/collectd
@@ -155,3 +164,23 @@ services:
       - 3000:3000
     volumes:
       - grafana_data:/var/lib/grafana
+
+  influxdb:
+    image: influxdb:latest
+    tty: true
+    container_name: influxdb
+    hostname: influxdb
+    restart: always
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_BUCKET=ultrafeeder
+      - DOCKER_INFLUXDB_INIT_ORG=ultrafeeder
+      - DOCKER_INFLUXDB_INIT_RETENTION=52w
+      - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUXDB_USER}
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_PASSWORD}
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_ADMIN_TOKEN}
+    ports:
+      - 8086:8086
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+      - influxdb_config:/etc/influxdb2
