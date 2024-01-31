@@ -36,13 +36,12 @@ services:
       # Sources and Aggregator connections:
       # NOTE: Make sure that each line ends with a semicolon ";" except the last line
       - ULTRAFEEDER_CONFIG=
-          adsb,feed.adsb.fi,30004,beast_reduce_plus_out;
-          adsb,in.adsb.lol,30004,beast_reduce_plus_out;
           mlathub,piaware,30105,beast_in
       # --------------------------------------------------
       # General Environment Config
       - UUID=${ULTRAFEEDER_UUID}
-      - MLATHUB_DISABLE=true
+      - MLATHUB_DISABLE=false
+      - MLAT_USER=neighborhoodfeeder
       # --------------------------------------------------
       # TAR1090 (Map Web Page) parameters:
       - UPDATE_TAR1090=true
