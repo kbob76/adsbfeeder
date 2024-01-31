@@ -91,3 +91,16 @@ services:
     tmpfs:
       - /run:exec,size=64M
       - /var/log
+      
+  fr24:
+    image: ghcr.io/sdr-enthusiasts/docker-flightradar24:latest
+    tty: true
+    container_name: fr24
+    restart: always
+    ports:
+      - 8754:8754
+    environment:
+      - BEASTHOST=ultrafeeder
+      - FR24KEY=${FR24_SHARING_KEY}
+    tmpfs:
+      - /var/log
