@@ -39,6 +39,8 @@ services:
       # General Parameters:
       - LOGLEVEL=error
       - TZ=${FEEDER_TZ}
+      - PROMETHEUS_ENABLE=true
+      - TAR1090_ENABLE_AC_DB=true
       # --------------------------------------------------
       # SDR related parameters:
       - READSB_DEVICE_TYPE=rtlsdr
