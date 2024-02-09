@@ -5,7 +5,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: "/home/dev/monitoring/grafana/appdata"
+      device: "/home/dev/monitoring/grafana/grafana/appdata"
       o: bind
   prom-config:
     driver: local
