@@ -21,8 +21,5 @@ FlightRadar24 - https://github.com/sdr-enthusiasts/docker-flightradar24
 
 NOTE: Ultrafeeder image does not come with telegraf, must use the `telegraf` image tag to get the docker image with telegraf installed.
 
-Metrics sent to Prometheus and InfluxDB, Grafana for visualization and monitoring
+Metrics sent to Prometheus, using Grafana for visualization and monitoring
 
-## Future Work
-- Pull ACARS data down
-- Setup granular alerting for various planes 
